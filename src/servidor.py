@@ -2,17 +2,23 @@
 
 import socket
 
-HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
-print('rodei')
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind((HOST, PORT))
-    s.listen()
-    conn, addr = s.accept()
-    with conn:
-        print('Connected by', addr)
-        while True:
-            data = conn.recv(1024)
-            if not data:
-                break
-            conn.sendall(data)
+HOST = '127.0.0.1'
+PORT = 65432
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((HOST, PORT))
+s.listen()
+print(f'Runnint at {HOST}:{PORT}')
+conn, addr = s.accept()
+conexao = True
+
+while conexao:
+    print('Connected by', addr)
+    data = conn.recv(1024)
+    print(f'ccccc: {data}\n\n')
+    if data is 'fechar':
+        break
+    value = input('Digite mensagem para cliente:\n')
+    conn.sendall(value.encode())
+    print('Mensagem enviada')
+
+s.close()
