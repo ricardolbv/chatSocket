@@ -17,15 +17,16 @@ def thread_read(connection):
         data = connection.recv(2048)
         if not data:
             break
-        print(b'\nMensagem recebida: '+data)
+        print(b'Mensagem recebida: '+data)
 
-# def thread_write(connection):
 
+# Enviando o nome do cliente ao servidor
+name = input('\n\nDigite seu nome:\n')
+s.sendall(name.encode())
 
 while conexao:
     start_new_thread(thread_read, (s, ))
     value = input('\n\nDigite a mensagem para servidor:\n')
     s.sendall(value.encode())
-    print('\n\nMensagem enviada\n')
 
 s.close()
