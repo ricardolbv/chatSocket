@@ -21,9 +21,6 @@ print(f'Executando em {HOST}:{PORT}')
 
 
 def threaded_cli(connection):
-    ##nome = connection.recv(2048)
-    ##msgInicial = 'Bem vindo ao chat ' + nome.decode()
-    # connection.send(str.encode(msgInicial))
     while True:
         data = connection.recv(2048)
         broadcast(data, connection)
@@ -31,28 +28,29 @@ def threaded_cli(connection):
 
 
 def broadcast(message, connection):
-    for nome, _cliente in clientes:
+    for key in clientes:
         try:
-            _cliente.send(message)
+            if(clientes[key] != connection):
+               #remetente = key.decode()
+               #_msg = message.decode()
+               #_msgCompleta = '<'+remetente+'> :'+message
+               # print(_msgCompleta)
+                clientes[key].send(message)
         except:
-            _cliente.close
-
-
-def dealingWithCli(client, nome):
-    clientes[nome]: client
+            clientes[key].close()
 
 
 while True:
     Client, addr = s.accept()
-    # clientes.append(Client)
     nome = Client.recv(2048)
     msgInicial = 'Bem vindo ao chat ' + nome.decode()
     Client.send(str.encode(msgInicial))
-    dealingWithCli(Client, nome)
+    clientes.update({nome: Client})
     print('Conectado a: ' + addr[0] + ':' + str(addr[1]))
 
     start_new_thread(threaded_cli, (Client, ))
     threadAmount += 1
     print('Usuarios conectados: ' + str(threadAmount))
+    print(clientes)
 
 s.close()
