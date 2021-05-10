@@ -14,12 +14,10 @@ print('Cliente conectado')
 conexao = True
 
 while conexao:
-    value = input('Digite a mensagem para servidor:\n')
-    s.sendall(value.encode())
-    print('Mensagem enviada\n')
-    if value is 'fechar':
-        break
     data = s.recv(1024)
     print(f'ssss:{data}')
+    value = input('\n\nDigite a mensagem para servidor:\n')
+    s.sendall(value.encode())
+    print('\n\nMensagem enviada\n')
 
 s.close()
