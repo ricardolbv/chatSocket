@@ -17,14 +17,16 @@ def thread_read(connection):
         data = connection.recv(2048)
         if not data:
             break
-        print(b'Mensagem recebida: '+data)
+        print('Mensagem recebida: '+str(data.decode()))
 
 
 # Enviando o nome do cliente ao servidor
-name = input('\n\nDigite seu nome:\n')
+name = input('\n\nDigite seu username:\n')
 s.sendall(name.encode())
 
 while conexao:
+    data = s.recv(2048)
+    print('Lista de clientes online: '+str(data.decode()))
     start_new_thread(thread_read, (s, ))
     value = input('\n\nDigite a mensagem para servidor:\n')
     s.sendall(value.encode())

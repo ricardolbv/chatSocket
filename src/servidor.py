@@ -31,10 +31,6 @@ def broadcast(message, connection):
     for key in clientes:
         try:
             if(clientes[key] != connection):
-               #remetente = key.decode()
-               #_msg = message.decode()
-               #_msgCompleta = '<'+remetente+'> :'+message
-               # print(_msgCompleta)
                 clientes[key].send(message)
         except:
             clientes[key].close()
@@ -43,14 +39,14 @@ def broadcast(message, connection):
 while True:
     Client, addr = s.accept()
     nome = Client.recv(2048)
-    msgInicial = 'Bem vindo ao chat ' + nome.decode()
-    Client.send(str.encode(msgInicial))
-    clientes.update({nome: Client})
+    nome = nome.decode()
+    clientes.update({str(nome): Client})
+    clientesOnline = str(clientes.keys())
+    Client.send(str.encode(clientesOnline[9:]))
     print('Conectado a: ' + addr[0] + ':' + str(addr[1]))
-
     start_new_thread(threaded_cli, (Client, ))
     threadAmount += 1
     print('Usuarios conectados: ' + str(threadAmount))
-    print(clientes)
+
 
 s.close()
