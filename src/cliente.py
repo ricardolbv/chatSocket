@@ -2,6 +2,7 @@
 import os
 from _thread import *
 import socket
+import json
 
 HOST = '127.0.0.1'  # The server's hostname or IP address
 PORT = 65432        # The port used by the server
@@ -11,13 +12,26 @@ s.connect((HOST, PORT))
 print('Cliente conectado')
 conexao = True
 
+# Tipo de mensagem que será trocada no servidor
+# Type pode ser: Mensagem, Cadastro, Descadastro
+mensagem = {'type': '', 'content': ''}
+
+
+def comunication(type, content, connection):
+    mensagem['type'] = type
+    mensagem['content'] = content
+    msg = json.dumps(mensagem)
+    connection.sendall(msg.encode())
+
 
 def thread_read(connection):
     while True:
         data = connection.recv(2048)
         if not data:
             break
-        print('Mensagem recebida: '+str(data.decode()))
+        msg = data.decode()
+        _msg = json.loads(msg)
+        print('Mensagem recebida: '+_msg['content'])
 
 
 # Enviando o nome do cliente ao servidor
@@ -29,6 +43,7 @@ while conexao:
     print('Lista de clientes online: '+str(data.decode()))
     start_new_thread(thread_read, (s, ))
     value = input('\n\nDigite a mensagem para servidor:\n')
-    s.sendall(value.encode())
+    # s.sendall(value.encode())
+    comunication('mensage', value, s)
 
 s.close()
