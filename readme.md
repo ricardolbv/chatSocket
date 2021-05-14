@@ -22,7 +22,11 @@
 
 ##### Além disso, deverão decidir se as interações entre os clientes ocorrerão diretamente entre si (peer-to-peer) ou através do servidor.
 
-#### Escolha de pontuação adicional ....
+#### Escolha de pontuação adicional
+
+#### 3.2 DESCONEXÃO (2 PONTOS)
+
+##### Os usuários deverão descadastrar-se ao saírem do sistema. Além disso, o servidor deverá verificar se há clientes offline e removê-los de sua lista de usuários ativos.
 
 #### 4. ENTREGA
 
