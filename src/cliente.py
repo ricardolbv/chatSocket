@@ -52,6 +52,8 @@ while conexao:
     start_new_thread(thread_read, (s, ))
     value = input('>>')
     # s.sendall(value.encode())
+    if(value == 'sair'):
+        comunication(name, 2, value, s)
     comunication(name, 1, value, s)
 
 s.close()

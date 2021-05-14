@@ -40,8 +40,11 @@ def threaded_cli(connection):
         msg = data.decode()
         _msg = json.loads(msg)
         print(_msg)
-        broadcast(data, connection)
-    connection.close()
+        if(_msg['content'] == 'sair'):
+            print(_msg['sender']+' Quer sair')
+            removeCli(_msg['sender'], connection)
+        else:
+            broadcast(data, connection)
 
 
 def broadcast(message, connection):
@@ -59,9 +62,14 @@ def verifyUser(user):
             return False  # Username já cadastrado
     return True  # Username validado
 
+
+def removeCli(client, connection):
+    connection.close()
+    clientes.pop(client, None)
+    sendOnlineClients()
+
+
 # Envia lista de clientes online para todos os cadastrados
-
-
 def sendOnlineClients():
     clientesOnline = str(clientes.keys())
     _msg = 'Usuarios online'+str(clientesOnline[9:])
