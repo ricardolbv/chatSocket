@@ -5,6 +5,7 @@ import socket
 import json
 
 clientes = {}
+historico = []
 
 HOST = '127.0.0.1'
 PORT = 65432
@@ -13,6 +14,24 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 mensagem = {'sender': '', 'type': '', 'content': ''}
+
+
+def setHistory(message):
+    historico.append(message)
+
+
+def getHistory():
+    return historico
+
+
+def sendHistory(connection):
+    try:
+        print(historico)
+        for i in historico:
+            print(i)
+            comunication(i['sender'], i['type'], i['content'], connection)
+    except:
+        connection.close()
 
 
 def comunication(sender, type, content, connection):
@@ -39,6 +58,7 @@ def threaded_cli(connection):
         data = connection.recv(2048)
         msg = data.decode()
         _msg = json.loads(msg)
+        setHistory(_msg)
         print(_msg)
         if(_msg['content'] == 'sair'):
             print(_msg['sender']+' Quer sair')
@@ -91,7 +111,8 @@ while True:
             sendOnlineClients()
             break
         comunication('server', 'error', 'Nome já esta sendo utilizado', Client)
-
+    if(getHistory()):  # Se eu tiver historico, envio ao cliente
+        sendHistory(Client)
     print('Conectado a: ' + addr[0] + ':' + str(addr[1]))
     start_new_thread(threaded_cli, (Client, ))
     threadAmount += 1

@@ -32,6 +32,7 @@ def thread_read(connection):
         # if not data:
         #    break
         msg = data.decode()
+        print(msg)
         _msg = json.loads(msg)
         print(_msg['sender']+' diz : '+_msg['content'])
 
