@@ -37,23 +37,26 @@ def thread_read(connection):
 
 
 # Enviando o nome do cliente ao servidor
-while True:
-    name = input('\n\nDigite seu username:\n')
-    s.sendall(name.encode())
-    data = s.recv(2048)
-    msg = data.decode()
-    _msg = json.loads(msg)
-    if(_msg['type'] != 'error'):
+try:
+    while True:
+        name = input('\n\nDigite seu username:\n')
+        s.sendall(name.encode())
+        data = s.recv(2048)
+        msg = data.decode()
+        _msg = json.loads(msg)
+        if(_msg['type'] != 'error'):
+            print(_msg['content'])
+            break
         print(_msg['content'])
-        break
-    print(_msg['content'])
 
-while conexao:
-    start_new_thread(thread_read, (s, ))
-    value = input('>>')
-    # s.sendall(value.encode())
-    if(value == 'sair'):
-        comunication(name, 2, value, s)
-    comunication(name, 1, value, s)
-
-s.close()
+    while conexao:
+        start_new_thread(thread_read, (s, ))
+        value = input('>>')
+        # s.sendall(value.encode())
+        if(value == 'sair'):
+            comunication(name, 2, value, s)
+            break
+        comunication(name, 1, value, s)
+except:
+    print('Saindo...')
+    s.close()

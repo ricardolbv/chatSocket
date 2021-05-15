@@ -43,6 +43,7 @@ def threaded_cli(connection):
         if(_msg['content'] == 'sair'):
             print(_msg['sender']+' Quer sair')
             removeCli(_msg['sender'], connection)
+            break
         else:
             broadcast(data, connection)
 
