@@ -28,6 +28,10 @@
 
 ##### Os usuários deverão descadastrar-se ao saírem do sistema. Além disso, o servidor deverá verificar se há clientes offline e removê-los de sua lista de usuários ativos.
 
+#### 3.6 USUÁRIOS OFFLINE (2 PONTOS)
+
+##### Clientes poderão enviar mensagens para usuários offline. Ao entrarem no sistema, esses usuários receberão as mensagens enviadas anteriormente.
+
 #### 4. ENTREGA
 
 ##### \* O código fonte de todos os programas implementados;
